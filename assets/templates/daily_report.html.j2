@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=820">
+<title>AI日报 {{ date }}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  width: 820px;
+  padding: 0;
+}
+.container { padding: 32px 36px; }
+
+.header {
+  text-align: center;
+  padding: 28px 0 24px;
+  border-bottom: 1px solid #1e293b;
+}
+.header h1 {
+  font-size: 28px;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header .sub {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #60a5fa;
+  margin: 28px 0 16px;
+  padding-left: 12px;
+  border-left: 3px solid #60a5fa;
+}
+
+.news-card {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.news-card .tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background: #334155;
+  color: #94a3b8;
+}
+.news-card .tag.hot { background: rgba(239,68,68,0.2); color: #fca5a5; }
+.news-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.news-card .meta {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+.news-card .desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+.news-card .highlight {
+  display: inline-block;
+  background: rgba(251,191,36,0.15);
+  color: #fbbf24;
+  padding: 0 4px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.brief-item {
+  display: flex;
+  padding: 10px 16px;
+  background: #1e293b;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 10px;
+}
+.brief-item .num {
+  font-size: 12px;
+  color: #64748b;
+  min-width: 20px;
+  line-height: 1.6;
+}
+.brief-item .content { flex: 1; }
+.brief-item .title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.brief-item .summary {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.tool-box {
+  background: linear-gradient(135deg, #1e293b, #1a1a3e);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.tool-box .tool-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #a78bfa;
+  margin-bottom: 8px;
+}
+.tool-box .tool-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+.tool-box .tool-step {
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-top: 10px;
+}
+.tool-box .tool-step li {
+  font-size: 13px;
+  line-height: 1.8;
+  margin-left: 16px;
+  color: #94a3b8;
+}
+
+.case-box {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(96,165,250,0.15);
+}
+.case-box .case-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #60a5fa;
+  margin-bottom: 6px;
+}
+.case-box .case-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px 0 16px;
+  border-top: 1px solid #1e293b;
+  margin-top: 32px;
+  font-size: 12px;
+  color: #475569;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>AI 日报</h1>
+  <div class="sub">{{ date }} · 精选AI动态</div>
+</div>
+
+{% if featured %}
+<div class="section-title">今日精选</div>
+{% for item in featured %}
+<div class="news-card">
+  <span class="tag{% if item.hot %} hot{% endif %}">{{ item.tag or 'AI动态' }}</span>
+  <h3>{{ item.title }}</h3>
+  <div class="meta">{{ item.source }} · {{ item.time }}</div>
+  <div class="desc">{{ item.description }}</div>
+  {% if item.highlights %}
+  <div style="margin-top:8px">
+    {% for kw in item.highlights %}
+    <span class="highlight">{{ kw }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endfor %}
+{% endif %}
+
+{% if briefs %}
+<div class="section-title">快讯简报</div>
+{% for item in briefs %}
+<div class="brief-item">
+  <div class="num">{{ loop.index }}</div>
+  <div class="content">
+    <div class="title">{{ item.title }}</div>
+    <div class="summary">{{ item.summary }}</div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if tool %}
+<div class="section-title">今日职场工具</div>
+<div class="tool-box">
+  <div class="tool-name">{{ tool.icon or '' }} {{ tool.name }}</div>
+  <div class="tool-desc">{{ tool.scene }}</div>
+  {% if tool.steps %}
+  <div class="tool-step">
+    <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;">5分钟上手：</div>
+    <ol>
+      {% for step in tool.steps %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if practice %}
+<div class="section-title">最佳实践</div>
+<div class="case-box">
+  <div class="case-title">{{ practice.name }}</div>
+  <div class="case-content">{{ practice.content }}</div>
+</div>
+{% endif %}
+
+<div class="footer">
+  由 AI 自动生成 · {{ date }}
+</div>
+
+</div>
+</body>
+</html>

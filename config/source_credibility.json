@@ -1,0 +1,55 @@
+{
+  "_说明": "信源可信度分级 - 用于日报新闻筛选时的信源验证",
+  "_版本": "1.0",
+
+  "Tier1_可直接使用": {
+    "说明": "官方发布、一手信源，新闻可不经额外验证直接使用",
+    "来源": [
+      "openai.com", "anthropic.com", "deepmind.google", "meta.com/ai",
+      "microsoft.com/ai", "aws.amazon.com/ai", "cloud.google.com/ai",
+      "github.blog/category/engineering/", "huggingface.co/blog",
+      "arxiv.org", "paperswithcode.com"
+    ]
+  },
+
+  "Tier2_权威媒体_交叉验证数字": {
+    "说明": "权威科技媒体，但涉及数字需交叉验证",
+    "来源": [
+      "techcrunch.com", "venturebeat.com", "theverge.com",
+      "technologyreview.com", "wired.com", "arstechnica.com",
+      "bloomberg.com", "reuters.com", "axios.com",
+      "jiqizhixin.com", "qbitai.com", "36kr.com"
+    ]
+  },
+
+  "Tier3_社区渠道_注明出处": {
+    "说明": "有价值但需标注来源，让读者自行判断",
+    "来源": [
+      "reddit.com/r/MachineLearning", "twitter.com",
+      "weibo.com", "xiaohongshu.com", "zhihu.com",
+      "mp.weixin.qq.com", "csdn.net", "juejin.cn"
+    ]
+  },
+
+  "Blacklist_禁止使用": {
+    "说明": "内容农场、SEO垃圾站、低质聚合站",
+    "来源": [
+      "36mbit.com", "aispace.com", "ainewser.com",
+      "aitopics.org", "sina.com.cn/tech/roll",
+      "163.com/dy", "sohu.com/a"
+    ],
+    "类型黑名单": [
+      "未署名的AI生成内容农场",
+      "标题党无实质内容的聚合页",
+      "明显虚假/夸大的营销推文",
+      "无法追溯到原始来源的二次/三次转载"
+    ]
+  },
+
+  "强制验证规则": {
+    "模型版本号": "必须与官方发布确认一致，禁止从二手报道推断",
+    "金融数据": "融资金额/估值必须有两个独立信源交叉确认",
+    "产品发布": "以官方公告为准，媒体预发布报道仅供参考",
+    "Benchmark分数": "必须注明测试环境、参数量、对比基线"
+  }
+}

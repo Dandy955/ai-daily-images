@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.workbuddy/
+archive/
+04-AI日报/*.html
+04-AI日报/*.json
+04-AI日报/output/*.png
+03-本地推送服务/push_log.json
+03-本地推送服务/.env
+.DS_Store
+*.log
