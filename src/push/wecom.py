@@ -201,6 +201,12 @@ def push_via_wecom_api(image_path, touser):
     return _send_image(token, media_id, touser)
 
 
+def _github_html_url(cdn_url):
+    cfg = get_github_config()
+    filename = cdn_url.rstrip('/').rsplit('/', 1)[-1]
+    return f"https://github.com/{cfg['owner']}/{cfg['repo']}/blob/{cfg['branch']}/{filename}"
+
+
 def push_via_wecom_api_news(image_path, touser, img_url=None, github_ok=True):
     token = get_access_token()
     if not token:
@@ -219,6 +225,7 @@ def push_via_wecom_api_news(image_path, touser, img_url=None, github_ok=True):
     wecom = get_wecom_config()
 
     try:
+        html_url = _github_html_url(img_url)
         resp = requests.post(
             "https://qyapi.weixin.qq.com/cgi-bin/message/send",
             params={"access_token": token},
@@ -230,7 +237,7 @@ def push_via_wecom_api_news(image_path, touser, img_url=None, github_ok=True):
                     "articles": [{
                         "title": f"AI日报 {today}",
                         "description": description,
-                        "url": img_url,
+                        "url": html_url,
                         "picurl": img_url
                     }]
                 },
@@ -283,13 +290,14 @@ def send_webhook_news(webhook_key, image_path, img_url=None, github_ok=True):
     today = datetime.now().strftime('%Y-%m-%d')
 
     try:
+        html_url = _github_html_url(img_url)
         resp = requests.post(webhook_url, json={
             "msgtype": "news",
             "news": {
                 "articles": [{
                     "title": f"AI日报 {today}",
                     "description": description,
-                    "url": img_url,
+                    "url": html_url,
                     "picurl": img_url
                 }]
             }
